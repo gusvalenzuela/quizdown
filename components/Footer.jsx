@@ -25,7 +25,6 @@ export default function Footer() {
         aside {
           position: absolute;
           bottom: 10px;
-          width: 100%;
         }
       `}</style>
       <footer className="footer">
