@@ -26,6 +26,28 @@ export default function Layout({ children }) {
             margin: 0;
             padding: 0;
           }
+          nav {
+            max-width: 800px;
+            margin: auto;
+            padding: 1rem 2rem;
+          }
+          div[role='link'] {
+            float: left;
+          }
+          div[role='link']:hover {
+            border-bottom: 1px solid #fff;
+            cursor: pointer;
+          }
+          nav .sitename {
+            color: #444;
+            margin: 0;
+            font-weight: 700;
+          }
+          nav:after {
+            content: '';
+            clear: both;
+            display: table;
+          }
         `}
       </style>
       <Head>
@@ -51,13 +73,20 @@ export default function Layout({ children }) {
       </Head>
       <header>
         <nav>
-          <Link href="/">
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <div
+            role="link"
+            tabIndex={0}
+            onClick={() => window.location.reload()}
+          >
+            <h4 className="sitename">QuizDown⁉</h4>
+          </div>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          {/* <Link href="/" passHref>
+            
             <a>
-              <h1>QuizDown⁉</h1>
             </a>
-          </Link>
-          <div>
+          </Link> */}
+          <div style={{ float: 'right' }}>
             {!user ? (
               <>
                 <Link href="/login" passHref>
