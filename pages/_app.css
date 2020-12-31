@@ -1,6 +1,16 @@
-body {
+:root {
+  --main-color: rgb(0, 112, 243);
+  --main-color-25: rgba(0, 112, 243, 0.25);
+  --main-color-50: rgba(0, 112, 243, 0.5);
+  --main-color-75: rgba(0, 112, 243, 0.75);
+}
+
+body,
+html {
   margin: 0;
   padding: 0;
+}
+body {
   color: #111;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,10 +22,19 @@ h2 {
   color: #333;
   text-align: center;
 }
+.easy {
+  color: green;
+}
+.medium {
+  color: yellow;
+}
+.hard {
+  color: red;
+}
 main .container {
   width: 100%;
   max-width: 800px;
-  background: #0070f351;
+  background: var(--main-color-25, rgba(0, 112, 243, 0.25));
   padding: 2rem 0.5rem;
   margin: auto;
   display: flex;
@@ -23,6 +42,14 @@ main .container {
   justify-content: center;
   align-items: center;
 }
+.gentle-flex-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1ch;
+}
+
 label {
   display: flex;
   margin-bottom: 0.5rem;
@@ -42,33 +69,8 @@ button:active {
   transform: translate3d(0px, -1px, 0px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
-header {
-  border-bottom: 1px solid #d8d8d8;
-}
-nav {
-  max-width: 1040px;
-  margin: auto;
-  padding: 1rem 2rem;
-}
-nav div {
-  float: right;
-}
-nav div a {
-  font-size: 0.9rem;
-  margin-left: 1rem;
-}
-nav h1 {
-  font-size: 1rem;
-  color: #444;
-  margin: 0;
-  font-weight: 700;
-  float: left;
-}
-nav:after {
-  content: '';
-  clear: both;
-  display: table;
-}
+
+
 main {
   padding: 5rem 0;
   max-width: 1040px;
@@ -80,26 +82,9 @@ main {
   align-items: center;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
 }
 
 .title,
@@ -121,54 +106,8 @@ code {
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-  margin-top: 3rem;
-}
-
-.card {
-  margin: 0.25rem;
-  flex-basis: 45%;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-}
-
-.card h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-
 .logo {
   height: 1em;
-}
-
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
 }
 
 .disable-click {
@@ -186,32 +125,6 @@ code {
   text-decoration: none;
 }
 
-/* misnomer, for now */
-
-.hi-scr-display {
-  color: #2f231c;
-  font-size: 14px;
-}
-
-.selection-screen {
-  padding: 1.7569565135131rem;
-}
-
-.selection-screen .row {
-  height: 4.7em;
-}
-
-#container-col {
-  color: #ffffff;
-  height: auto;
-  white-space: normal !important;
-  text-align: center !important;
-  /* padding: 1em; */
-  word-break: break-word !important;
-  overflow-wrap: break-word !important;
-  /* background: rgba(0, 174, 255, 0.24); */
-}
-
 .play-btn {
   text-decoration: none;
   border: none;
@@ -227,18 +140,6 @@ code {
   background: #2f231c;
 }
 
-.play-screen {
-  height: 81% !important;
-}
-
-#grade-display,
-#penalty-display {
-  font-size: 20px;
-  text-align: center;
-  font-weight: 700;
-  color: whitesmoke;
-  line-height: 1.2em;
-}
 .category-name {
   text-align: center;
   /* display: inline-block; */
@@ -254,22 +155,9 @@ code {
   background: #006999da;
 }
 
-.top-wrap {
-  background: rgba(0, 174, 255, 0.24);
-}
-
 .text-grv {
   color: #006999;
 }
-
-.top-row {
-  color: white;
-  font-size: 2.25em;
-  font-weight: 700;
-  padding: 0.2em 0.5em;
-  line-height: 1.5em;
-}
-
 .btn-grv {
   width: 100%;
   line-height: 18px;
@@ -291,15 +179,6 @@ code {
   font-size: 18px;
   padding: 1em;
 }
-#initials-form {
-  text-align: center;
-  border-top: 1px groove;
-  margin-top: 1.1rem;
-}
-#initials-form > * {
-  margin: 1rem auto;
-}
-
 .user-initials-input {
   color: #ffffff;
   display: block;
@@ -353,15 +232,7 @@ code {
 .random > span {
   padding: 0.25rem;
 }
-#easy-random {
-  color: rgb(0, 156, 0);
-}
-#medium-random {
-  color: yellow;
-}
-#hard-random {
-  color: red;
-}
+
 .random-modes:hover {
   color: #006999;
   text-decoration: underline;
