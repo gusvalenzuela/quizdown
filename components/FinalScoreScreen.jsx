@@ -1,30 +1,21 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 function FinalScore({ category, difficulty, score }) {
-  function saveToDatabase() {
-    // console.log(event)
-  }
+  const router = useRouter()
+  // function saveToDatabase() {
+  //   // console.log()
+  // }
   return (
     <>
-      <style jsx>{`
-        .easy {
-          color: #ffffff;
-        }
-        .medium {
-          color: #ffffff;
-        }
-        .hard {
-          color: #ffffff;
-        }
-      `}</style>
       <div className="finalScreen container">
         <h1 className="title">{category || 'Category Name'}</h1>
 
-        <p className="description">{difficulty || 'Category Difficulty'}</p>
+        <p className={difficulty}>{difficulty}</p>
         <p>Score: {score}</p>
 
-        <button type="button" disabled onClick={saveToDatabase}>
-          Enter Initials
+        <button type="button" onClick={() => router.reload()}>
+          Try again!
         </button>
       </div>
     </>
