@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from 'semantic-ui-react'
 
 export default function Footer() {
   return (
@@ -12,7 +13,6 @@ export default function Footer() {
           margin-top: 1rem;
           padding: 3rem 1rem;
           width: 100%;
-          display: flex;
         }
         footer * {
           padding: 0.25rem;
@@ -25,19 +25,25 @@ export default function Footer() {
         aside {
           position: absolute;
           bottom: 10px;
+          right: 10px;
         }
       `}</style>
-      <footer className="footer">
-        <section style={{ display: 'flex' }}>
-          <span> &copy; 2020 </span>
-          <a href="https://www.gusvalenzuela.com">\\ Gus Valenzuela</a>
-          <a href="https://github.com/gusvalenzuela/quiz-game">\\ code</a>
+      <footer className="footer gentle-flex-centered">
+        <section>
+          <span>
+            &copy; 2020-2021 \\{' '}
+            <a href="https://www.gusvalenzuela.com">Gus Valenzuela</a>
+            \\{' '}
+            <a href="https://github.com/gusvalenzuela/nxt-quiz-game">
+              <Icon name="github" />
+            </a>
+          </span>
         </section>
-        <aside>
+        <aside className="resource-credits">
           <a href="https://github.com/hoangvvo/nextjs-mongodb-app">
             App boiler plate
           </a>{' '}
-          created by <a href="https://hoangvvo.com/">Hoang Vo</a>.
+          created by <a href="https://hoangvvo.com/">Hoang Vo</a>
         </aside>
       </footer>
     </>

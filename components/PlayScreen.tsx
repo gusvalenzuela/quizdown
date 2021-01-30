@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Moment from 'react-moment'
 
 function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
@@ -8,17 +8,32 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
   const [timerOn, setTimerOn] = useState(true)
   const [timerStart] = useState(8)
   const [timerTime, setTimerTime] = useState(timerStart)
+  const choicesRef = useRef()
 
   const { category, difficulty, question } = activeQuestion
 
   function handleGrading(selectedAnswer) {
+    const correctAnswer = quiz.answer(activeQuestion.id)
+    // // find the possible answers/choices for questions on DOM
+    const choiceButtons = [...choicesRef.current.children]
+    const selectedChoiceButton = choiceButtons?.filter(
+      (c) => c.innerText === selectedAnswer
+    )[0]
+    const rightChoiceButton = choiceButtons?.filter(
+      (c) => c.innerText === correctAnswer
+    )[0]
+    // change background of correct answer to green
+    rightChoiceButton.style.backgroundColor = 'green'
+
     clearTimeout(gradingTimeout)
     // freeze the timer
     setTimerOn(false)
-    if (selectedAnswer === quiz.answer(activeQuestion.id)) {
+
+    // do what you will if answer is correct, else incorrect
+    if (selectedAnswer === correctAnswer) {
       // correct
       // console.log('answered correctly')
-      let score
+      let score: number
       switch (difficulty) {
         case 'hard':
           score = 12
@@ -32,6 +47,9 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
       setGrade(score)
     } else {
       // incorrect
+      if (selectedChoiceButton) {
+        selectedChoiceButton.style.backgroundColor = 'red'
+      }
       // console.log('answered incorrectly')
       setGrade(-10)
     }
@@ -160,14 +178,14 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
         {activeQuestion && !allAnswered && (
           <section className="activeQuestion">
             <h2>{question}</h2>
-            <article>
-              {activeQuestion.choices.map((choice) => (
+            <article ref={choicesRef}>
+              {activeQuestion.choices.map((choice: string) => (
                 <button
                   disabled={timerTime <= 0 || !timerOn}
                   type="button"
                   key={choice}
                   onClick={(e) => handleGrading(e.currentTarget.value)}
-                  className="card"
+                  className="card choices"
                   value={choice}
                 >
                   {choice}
