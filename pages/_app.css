@@ -70,7 +70,6 @@ button:active {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-
 main {
   padding: 5rem 0;
   max-width: 1040px;
@@ -239,7 +238,8 @@ code {
   cursor: pointer;
 }
 
-#resource-credits {
+.resource-credits {
+  opacity: .85;
   font-size: 10px;
   line-height: 10px;
 }
