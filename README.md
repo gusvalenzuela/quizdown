@@ -1,6 +1,5 @@
 # QUIZDown⁉
-
-> New 3.0 version being built with NextJS/React.
+> New 3.0 version being built with NextJS.
 
 - Still a work in progress.
 - See and play with QuizDown V2.0 here: https://quiz-down.herokuapp.com/
@@ -21,4 +20,4 @@ Timed quiz with time penalty for wrong answers and time added for correct ones. 
 
 - A final screen appears at the end of the game where you can enter your initials and save the score. You can also view any previous scores ranked highest-to-lowest for the category and difficulty played.
 
-# Copyright 2020 \\ Gus Valenzuela
+# Copyright 2020-2021 \\ Gus Valenzuela
