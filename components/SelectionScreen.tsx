@@ -23,7 +23,7 @@ const difficultyDropdownOptions = [
 ]
 
 function SelectionScreen({ categories, setQuiz }) {
-  const [selectedCategory, setSelectedCategory] = useState(Number(-1))
+  const [selectedCategory, setSelectedCategory] = useState(categories[0].id)
   const [selectedDifficulty, setSelectedDifficulty] = useState('easy')
 
   async function handleRandomButtons(mode: 'easy' | 'medium' | 'hard') {
@@ -34,12 +34,12 @@ function SelectionScreen({ categories, setQuiz }) {
   }
 
   async function handlePlayButton() {
-    setQuiz(new Quiz(SampleSet.results))
-    // const data = await grabTriviaQsFromOpenTDB(
-    //   selectedCategory,
-    //   selectedDifficulty
-    // )
-    // if (data.response_code === 0) setQuiz(new Quiz(data.results))
+    // setQuiz(new Quiz(SampleSet.results))
+    const data = await grabTriviaQsFromOpenTDB(
+      selectedCategory,
+      selectedDifficulty
+    )
+    if (data.response_code === 0) setQuiz(new Quiz(data.results))
   }
 
   return (
@@ -51,72 +51,102 @@ function SelectionScreen({ categories, setQuiz }) {
             color: #ffff;
             padding: 2rem;
           }
+
+          label {
+            display: flex;
+            margin-bottom: 0.5rem;
+            align-items: center;
+            width: 100%;
+          }
+          form {
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+          .play-btn {
+            text-decoration: none;
+            border: none;
+            border-bottom: 1px ridge #2f231c;
+            line-height: 50px;
+            color: white;
+            background: #006999;
+          }
+
+          .play-btn:hover {
+            color: #006999;
+            text-decoration: none;
+            background: #2f231c;
+          }
+          .random {
+            clear: both;
+            color: white;
+            font-size: var(--base-font-size);
+            text-align: center;
+          }
+          .random > span {
+            padding: 0.25rem;
+          }
+
+          .random-modes:hover {
+            color: #006999;
+            text-decoration: underline;
+            cursor: pointer;
+          }
         `}
       </style>
       <section className="selection-screen">
         <form action="#" id="quiz-options-form">
-          <div className="row justify-content-center">
-            <div className="input-group mb-3 col px-3" id="quiz-category-div">
-              <div className="input-group-prepend">
-                <label
-                  className="input-group-text rounded-0"
-                  htmlFor="inputGroupSelect01"
-                >
-                  Category:
-                  <Dropdown
-                    id="category-dropdown"
-                    labeled
-                    search
-                    selection
-                    options={categories?.map((category) => ({
-                      key: category.id,
-                      text: category.name,
-                      value: category.id,
-                    }))}
-                    placeholder="Choose..."
-                    onChange={(e, { value }) => {
-                      setSelectedCategory(Number(value))
-                    }}
-                    value={selectedCategory}
-                  />
-                  
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="input-group mb-3 col px-3" id="quiz-difficulty-div">
-              <div className="input-group-prepend">
-                <label
-                  className="input-group-text rounded-0"
-                  htmlFor="inputGroupSelect02"
-                >
-                  Difficulty:
-                  <Dropdown
-                    id="difficulty-dropdown"
-                    labeled
-                    search
-                    selection
-                    options={difficultyDropdownOptions}
-                    placeholder="Choose..."
-                    onChange={(e, { value }) => {
-                      setSelectedDifficulty(value.toString().toLowerCase())
-                    }}
-                    value={selectedDifficulty}
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <button
-              type="button"
-              className="play-btn"
-              onClick={handlePlayButton}
-            >
-              PLAY!
-            </button>
-          </div>
+          <label className="" htmlFor="category-dropdown">
+            Category:
+            <Dropdown
+              id="category-dropdown"
+              labeled
+              search
+              selection
+              fluid
+              options={categories
+                ?.map((category) => ({
+                  key: category.id,
+                  text: category.name,
+                  value: category.id,
+                }))
+                .concat([
+                  {
+                    // add an extra "Variety" option
+                    // defaults to -1 value, which returns q's from variety of categories
+                    key: -1,
+                    text: '-- Variety of Categories --',
+                    value: -1,
+                  },
+                ])}
+              placeholder="Choose..."
+              onChange={(e, { value }) => {
+                setSelectedCategory(Number(value))
+              }}
+              value={selectedCategory}
+            />
+          </label>
+          <label className="" htmlFor="difficulty-dropdown">
+            Difficulty:
+            <Dropdown
+              id="difficulty-dropdown"
+              labeled
+              search
+              selection
+              fluid
+              options={difficultyDropdownOptions}
+              placeholder="Choose..."
+              onChange={(e, { value }) => {
+                setSelectedDifficulty(value.toString().toLowerCase())
+              }}
+              value={selectedDifficulty}
+            />
+          </label>
+          <button type="button" className="play-btn" onClick={handlePlayButton}>
+            PLAY!
+          </button>
           <div
             className="row"
             // style={{ display: 'none' }}
