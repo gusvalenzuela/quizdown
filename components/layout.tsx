@@ -76,7 +76,7 @@ export default function Layout({ children }) {
           <div
             role="link"
             tabIndex={0}
-            onClick={() => window.location.reload()}
+            onClick={() => (window.location.href = '/')}
           >
             <h4 className="sitename">QuizDown⁉</h4>
           </div>
