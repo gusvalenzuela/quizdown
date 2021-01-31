@@ -7,7 +7,7 @@ export default function Footer() {
       <style jsx>{`
         footer {
           position: relative;
-          background-color: #eaeaea10;
+          background-color: #020202ad;
           color: white;
           text-align: center;
           margin-top: 1rem;
@@ -30,7 +30,7 @@ export default function Footer() {
       `}</style>
       <footer className="footer gentle-flex-centered">
         <section>
-          <span>
+          <span style={{ fontSize: 'var(--heading-4)' }}>
             &copy; 2020-2021 \\{' '}
             <a href="https://www.gusvalenzuela.com">Gus Valenzuela</a>
             \\{' '}
@@ -39,12 +39,6 @@ export default function Footer() {
             </a>
           </span>
         </section>
-        <aside className="resource-credits">
-          <a href="https://github.com/hoangvvo/nextjs-mongodb-app">
-            App boiler plate
-          </a>{' '}
-          created by <a href="https://hoangvvo.com/">Hoang Vo</a>
-        </aside>
       </footer>
     </>
   )
