@@ -1,10 +1,12 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useCurrentUser } from '../lib/hooks'
 import Footer from './Footer'
 
 export default function Layout({ children }) {
+  const router = useRouter()
   const [user, { mutate }] = useCurrentUser()
   const handleLogout = async () => {
     await fetch('/api/auth', {
@@ -31,17 +33,27 @@ export default function Layout({ children }) {
             margin: auto;
             padding: 1rem 2rem;
           }
-          div[role='link'] {
-            float: left;
-          }
-          div[role='link']:hover {
-            border-bottom: 1px solid #fff;
-            cursor: pointer;
-          }
-          nav .sitename {
+          button.sitename {
             color: #444;
             margin: 0;
             font-weight: 700;
+            border: none;
+            background-color: transparent;
+            text-decoration: none;
+            display: inline-block;
+            border-bottom: 1px solid transparent;
+            cursor: pointer;
+            transform: scale(1);
+            font-size: var(--heading-3);
+          }
+          .sitename {
+            float: left;
+          }
+          .sitename:hover {
+            transform: scale(1.084);
+            color: #ddd;
+            border-bottom: 1px solid #fff;
+            transition: ease-out 0.25s;
           }
           nav:after {
             content: '';
@@ -73,19 +85,16 @@ export default function Layout({ children }) {
       </Head>
       <header>
         <nav>
-          <div
-            role="link"
-            tabIndex={0}
-            onClick={() => (window.location.href = '/')}
+          <button
+            className="sitename"
+            onClick={() => {
+              if (router.pathname === '/') return router.reload()
+              return router.push('/')
+            }}
+            type="button"
           >
-            <h4 className="sitename">QuizDown⁉</h4>
-          </div>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          {/* <Link href="/" passHref>
-            
-            <a>
-            </a>
-          </Link> */}
+            QuizDown⁉
+          </button>
           <div style={{ float: 'right' }}>
             {!user ? (
               <>
@@ -101,7 +110,6 @@ export default function Layout({ children }) {
                 <Link href="/user/[userId]" as={`/user/${user._id}`}>
                   <button type="button">Profile</button>
                 </Link>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a tabIndex={0} role="button" onClick={handleLogout}>
                   Logout
                 </a>
