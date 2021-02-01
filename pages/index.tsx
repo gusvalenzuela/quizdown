@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react'
 import Head from 'next/head'
 // import { useCurrentUser } from '../lib/hooks';
@@ -25,6 +26,7 @@ const IndexPage = ({ categories }) => {
           }
           h1.title {
             color: #fff;
+            text-align: center;
           }
         `}
       </style>
