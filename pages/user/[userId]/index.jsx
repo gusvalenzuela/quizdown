@@ -1,19 +1,16 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import Error from 'next/error';
-import middleware from '../../../middlewares/middleware';
-import { useCurrentUser } from '../../../lib/hooks';
-import Posts from '../../../components/post/posts';
-import { getUser } from '../../../lib/db';
+import React from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
+import Error from 'next/error'
+import middleware from '../../../middlewares/middleware'
+import { useCurrentUser } from '../../../lib/hooks'
+import { getUser } from '../../../lib/db'
 
 export default function UserPage({ user }) {
-  if (!user) return <Error statusCode={404} />;
-  const {
-    name, email, bio, profilePicture,
-  } = user || {};
-  const [currentUser] = useCurrentUser();
-  const isCurrentUser = currentUser?._id === user._id;
+  const [currentUser] = useCurrentUser()
+  if (!user) return <Error statusCode={404} />
+  const { name, email, bio, profilePicture } = user || {}
+  const isCurrentUser = currentUser?._id === user._id
   return (
     <>
       <style jsx>
@@ -55,34 +52,28 @@ export default function UserPage({ user }) {
           <div>
             <h2>{name}</h2>
             {isCurrentUser && (
-            <Link href="/settings">
-              <button type="button">Edit</button>
-            </Link>
+              <Link href="/settings">
+                <button type="button">Edit</button>
+              </Link>
             )}
           </div>
           Bio
           <p>{bio}</p>
           Email
-          <p>
-            {email}
-          </p>
+          <p>{email}</p>
         </section>
       </div>
-      <div>
-        <h3>My posts</h3>
-        <Posts creatorId={user._id} />
-      </div>
     </>
-  );
+  )
 }
 
 export async function getServerSideProps(context) {
-  await middleware.apply(context.req, context.res);
-  const user = await getUser(context.req, context.params.userId);
-  if (!user) context.res.statusCode = 404;
+  await middleware.run(context.req, context.res)
+  const user = await getUser(context.req, context.params.userId)
+  if (!user) context.res.statusCode = 404
   return {
     props: {
       user,
     }, // will be passed to the page component as props
-  };
+  }
 }
