@@ -51,6 +51,7 @@ h5 {
 }
 main {
   padding: 5rem 0;
+  width: 90%;
   max-width: 1040px;
   margin: 0 auto;
   flex: 1;
@@ -68,12 +69,13 @@ main {
 .hard {
   color: red;
 }
-main .container {
+.container {
   width: 100%;
   max-width: 800px;
+  background-color: #eaeaea10;
   background: var(--main-color-25, rgba(0, 112, 243, 0.25));
   padding: 2rem 0.5rem;
-  margin: auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

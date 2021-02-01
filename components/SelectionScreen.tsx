@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import { Quiz } from '../lib/Quiz'
 import { grabTriviaQsFromOpenTDB } from '../lib/api-helpers'
-import SampleSet from '../lib/SampleQuizResponse'
+// import SampleSet from '../lib/SampleQuizResponse'
 
 const difficultyDropdownOptions = [
   {
@@ -39,6 +39,7 @@ function SelectionScreen({ categories, setQuiz }) {
       selectedCategory,
       selectedDifficulty
     )
+
     if (data.response_code === 0) setQuiz(new Quiz(data.results))
   }
 
@@ -98,16 +99,16 @@ function SelectionScreen({ categories, setQuiz }) {
       </style>
       <section className="selection-screen">
         <form action="#" id="quiz-options-form">
-          <label className="" htmlFor="category-dropdown">
+          <label className="">
             Category:
             <Dropdown
               id="category-dropdown"
               labeled
-              search
+              // search
               selection
               fluid
               options={categories
-                ?.map((category) => ({
+                ?.map((category: { id: string; name?: string }) => ({
                   key: category.id,
                   text: category.name,
                   value: category.id,
@@ -121,19 +122,18 @@ function SelectionScreen({ categories, setQuiz }) {
                     value: -1,
                   },
                 ])}
-              placeholder="Choose..."
               onChange={(e, { value }) => {
                 setSelectedCategory(Number(value))
               }}
+              placeholder="Choose..."
               value={selectedCategory}
             />
           </label>
-          <label className="" htmlFor="difficulty-dropdown">
+          <label className="">
             Difficulty:
             <Dropdown
               id="difficulty-dropdown"
               labeled
-              search
               selection
               fluid
               options={difficultyDropdownOptions}

@@ -2,8 +2,8 @@ import React from 'react'
 import Head from 'next/head'
 import Moment from 'react-moment'
 import Layout from '../components/layout'
-import './_app.css'
 import 'semantic-ui-css/semantic.min.css'
+import './_app.css'
 
 export default function MyApp({ Component, pageProps }) {
   // Start the pooled timer which runs every 60 seconds

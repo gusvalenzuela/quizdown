@@ -1,18 +1,22 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, RefObject } from 'react'
 import Moment from 'react-moment'
+
+const cleanup = (magicstuf: any) => magicstuf
 
 function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
   const [activeQuestion, setActiveQuestion] = useState(quiz.randomQuestion) // start with a random question
   const [questionCount, setQuestionCount] = useState(1)
   const [grade, setGrade] = useState(0)
   const [timerOn, setTimerOn] = useState(true)
-  const [timerStart] = useState(8)
+  const [timerStart] = useState(42)
   const [timerTime, setTimerTime] = useState(timerStart)
-  const choicesRef = useRef()
+  const choicesRef: RefObject<any> = useRef()
 
   const { category, difficulty, question } = activeQuestion
 
-  function handleGrading(selectedAnswer) {
+  let gradingTimeout: any
+
+  function handleGrading(selectedAnswer: string) {
     const correctAnswer = quiz.answer(activeQuestion.id)
     // // find the possible answers/choices for questions on DOM
     const choiceButtons = [...choicesRef.current.children]
@@ -24,7 +28,6 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
     )[0]
     // change background of correct answer to green
     rightChoiceButton.style.backgroundColor = 'green'
-
     clearTimeout(gradingTimeout)
     // freeze the timer
     setTimerOn(false)
@@ -48,13 +51,15 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
     } else {
       // incorrect
       if (selectedChoiceButton) {
+        // only if a choice was actually selected
+        // change background of incorrect answer to red
         selectedChoiceButton.style.backgroundColor = 'red'
       }
       // console.log('answered incorrectly')
       setGrade(-10)
     }
     // set timeout to display wrong/right answer
-    const gradingTimeout = setTimeout(() => {
+    gradingTimeout = window.setTimeout(() => {
       // break if all questions have been answered
       if (quiz.alreadyAnswered.length !== quiz.questions.length) {
         setTimerTime(timerStart)
@@ -69,6 +74,10 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
     }, 2000)
   }
 
+  // mount/dismount of component
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => cleanup(clearTimeout(gradingTimeout)), [])
+
   return (
     <>
       <style jsx>
@@ -81,8 +90,9 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
           header {
             background-color: #0003;
             color: var(--main-color, blue);
-            // border: solid;
+            text-align: center;
             margin: auto;
+            margin-bottom: 2.441rem;
             width: 80%;
             max-width: 576px;
           }
@@ -98,7 +108,7 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
             padding: 1.5rem;
 
             font-weight: bolder;
-            font-size: 1.654rem;
+            font-size: var(--heading-3);
             text-align: center;
             color: inherit;
             text-decoration: none;
@@ -117,29 +127,27 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
 
           .grade {
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: var(--heading-3);
           }
           .timer-block {
-            height: 100%;
             min-height: 75px;
             width: 100%;
             background-color: #ffffff00;
           }
           .countdown-timer,
-          .question-count {
+          .question-count,
+          .grade-display {
             color: #fff;
             font-weight: 800;
-            font-size: 2.3rem;
+            font-size: var(--heading-1);
             padding: 0.5rem 1rem;
             margin: 0 1.3rem;
           }
         `}
       </style>
       <header>
-        <h1 className="title">{category || 'Category Name'}</h1>
-        <p className={`${difficulty} description`}>
-          {difficulty || 'Category Difficulty'}
-        </p>
+        <h1>{category || 'Category Name'}</h1>
+        <p className={`${difficulty}`}>{difficulty || 'Category Difficulty'}</p>
       </header>
       <div className="timer-block gentle-flex-centered">
         {/* quick patch for a working "countdown timer"
@@ -165,16 +173,13 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
             style={{ color: `${timerTime <= 10 && 'red'}` }}
             className="countdown-timer"
           >
-            {timerTime}
+            ⏲ {timerTime}
           </span>
+          <span className="grade-display">{grade}</span>
         </div>
       </div>
 
       <div className="playScreen container">
-        <span style={{ display: 'none' }} className="grade">
-          {grade}
-        </span>
-
         {activeQuestion && !allAnswered && (
           <section className="activeQuestion">
             <h2>{question}</h2>
