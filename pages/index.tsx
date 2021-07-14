@@ -1,9 +1,6 @@
-/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react'
 import Head from 'next/head'
 // import { useCurrentUser } from '../lib/hooks';
-// import PostEditor from '../components/post/editor'
-// import Posts from '../components/post/posts'
 import SelectionScreen from '../components/SelectionScreen'
 import PlayScreen from '../components/PlayScreen'
 import FinalScoreScreen from '../components/FinalScoreScreen'
