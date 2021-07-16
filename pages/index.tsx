@@ -9,6 +9,7 @@ const IndexPage = ({ categories }) => {
   // const [user] = useCurrentUser();
   const [quiz, setQuiz] = useState(null) // null to prevent the render down below
   const [allAnswered, setAllAnswered] = useState(false)
+  const [finalScore, setFinalScore] = useState(null)
 
   return (
     <>
@@ -49,12 +50,13 @@ const IndexPage = ({ categories }) => {
             quiz={quiz}
             allAnswered={allAnswered}
             setAllAnswered={setAllAnswered}
+            setFinalScore={setFinalScore}
           />
         ) : (
           <FinalScoreScreen
             category={quiz.category}
             difficulty={quiz.difficulty}
-            score={7}
+            score={finalScore}
           />
         )}
       </div>
