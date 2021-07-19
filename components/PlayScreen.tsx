@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState, RefObject } from 'react'
+import React, { useRef, useState, RefObject } from 'react'
+import { Icon } from 'semantic-ui-react'
 import Moment from 'react-moment'
 
-const cleanup = (magicstuf: any) => magicstuf
-
-function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
+function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
   const [activeQuestion, setActiveQuestion] = useState(quiz.randomQuestion) // start with a random question
   const [questionCount, setQuestionCount] = useState(1)
-  const [grade, setGrade] = useState(0)
+  const [grade, setGrade] = useState(null)
   const [timerOn, setTimerOn] = useState(true)
-  const [timerStart] = useState(42)
+  const [timerStart] = useState(999)
   const [timerTime, setTimerTime] = useState(timerStart)
   const choicesRef: RefObject<any> = useRef()
 
@@ -32,23 +31,38 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
     // freeze the timer
     setTimerOn(false)
 
+    // this will be updated below (+ score or - penalty) and set as
+    // a new timerTime after a 2sec timeout
+    let updatedTimerTime: number = timerTime
+
     // do what you will if answer is correct, else incorrect
     if (selectedAnswer === correctAnswer) {
-      // correct
       // console.log('answered correctly')
       let score: number
       switch (difficulty) {
         case 'hard':
-          score = 12
+          score = 25
           break
         case 'medium':
-          score = 7
+          score = 15
           break
         default:
-          score = 3
+          score = 7
       }
       setGrade(score)
+      updatedTimerTime += score
     } else {
+      let penalty: number
+      switch (difficulty) {
+        case 'hard':
+          penalty = -20
+          break
+        case 'medium':
+          penalty = -12
+          break
+        default:
+          penalty = -5
+      }
       // incorrect
       if (selectedChoiceButton) {
         // only if a choice was actually selected
@@ -56,27 +70,30 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
         selectedChoiceButton.style.backgroundColor = 'red'
       }
       // console.log('answered incorrectly')
-      setGrade(-10)
+      setGrade(penalty)
+      updatedTimerTime += penalty // penalties are < 0
     }
+
     // set timeout to display wrong/right answer
     gradingTimeout = window.setTimeout(() => {
       // break if all questions have been answered
-      if (quiz.alreadyAnswered.length !== quiz.questions.length) {
-        setTimerTime(timerStart)
+      if (
+        quiz.alreadyAnswered.length !== quiz.questions.length &&
+        updatedTimerTime >= 0
+      ) {
+        setTimerTime(updatedTimerTime)
         // restart countdown
         setTimerOn(true)
         // set a new random question
         setActiveQuestion(quiz.randomQuestion)
         setQuestionCount(quiz.alreadyAnswered.length + 1)
+        setGrade(null)
       } else {
         setAllAnswered(true)
+        setFinalScore((updatedTimerTime && updatedTimerTime >= 0) || 0)
       }
     }, 2000)
   }
-
-  // mount/dismount of component
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => cleanup(clearTimeout(gradingTimeout)), [])
 
   return (
     <>
@@ -92,9 +109,21 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
             color: var(--main-color, blue);
             text-align: center;
             margin: auto;
-            margin-bottom: 2.441rem;
+            margin-bottom: 1rem;
             width: 80%;
             max-width: 576px;
+          }
+
+          @media screen and (max-width: 576px) {
+            header > h1 {
+              font-size: 1.336rem;
+              margin-bottom: 0.5rem;
+            }
+
+            .question-count,
+            .countdown-timer {
+              font-size: var(--heading-4);
+            }
           }
 
           article {
@@ -108,7 +137,7 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
             padding: 1.5rem;
 
             font-weight: bolder;
-            font-size: var(--heading-3);
+            font-size: var(--heading-4);
             text-align: center;
             color: inherit;
             text-decoration: none;
@@ -130,18 +159,31 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
             font-size: var(--heading-3);
           }
           .timer-block {
-            min-height: 75px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            min-height: 50px;
             width: 100%;
             background-color: #ffffff00;
           }
           .countdown-timer,
-          .question-count,
-          .grade-display {
+          .question-count {
+            position: relative;
+            flex: 1 1 auto;
             color: #fff;
             font-weight: 800;
-            font-size: var(--heading-1);
+            font-size: var(--heading-3);
             padding: 0.5rem 1rem;
+            text-align: center;
             margin: 0 1.3rem;
+          }
+          .grade-display {
+            position: absolute;
+            top: 2%;
+            right: 5%;
+            color: ${grade > 0 ? '#0f0' : '#f00'};
+            font-weight: 600;
+            font-size: var(--heading-4);
           }
         `}
       </style>
@@ -149,7 +191,7 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
         <h1>{category || 'Category Name'}</h1>
         <p className={`${difficulty}`}>{difficulty || 'Category Difficulty'}</p>
       </header>
-      <div className="timer-block gentle-flex-centered">
+      <div className="timer-block">
         {/* quick patch for a working "countdown timer"
         uses moment (react-moment) */}
         <Moment
@@ -159,24 +201,25 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered }) {
           format="YYYY"
           onChange={() => {
             if (!timerOn) return
-            setTimerTime(timerTime === 0 ? timerTime : timerTime - 1)
-            if (timerTime === 0) {
+            setTimerTime(timerTime <= 0 ? 0 : timerTime - 1)
+            if (timerTime <= 0) {
               handleGrading('no')
             }
           }}
         />
-        <div>
-          <span className="question-count">
-            Q: {questionCount} / {quiz.questions.length}
+        <span className="question-count">
+          Q: {questionCount} / {quiz.questions.length}
+        </span>
+        <span
+          style={{ color: `${timerTime <= 10 && 'red'}` }}
+          className="countdown-timer"
+        >
+          <Icon name="time" />
+          {timerTime}
+          <span id="grade-display" className="grade-display">
+            {grade > 0 ? `+${grade}` : grade}
           </span>
-          <span
-            style={{ color: `${timerTime <= 10 && 'red'}` }}
-            className="countdown-timer"
-          >
-            ⏲ {timerTime}
-          </span>
-          <span className="grade-display">{grade}</span>
-        </div>
+        </span>
       </div>
 
       <div className="playScreen container">
