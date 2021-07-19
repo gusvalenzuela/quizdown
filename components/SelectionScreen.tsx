@@ -48,7 +48,6 @@ function SelectionScreen({ categories, setQuiz }) {
       <style jsx>
         {`
           section {
-            background-color: #eaeaea3a;
             color: #ffff;
             padding: 2rem;
           }
@@ -97,7 +96,7 @@ function SelectionScreen({ categories, setQuiz }) {
           }
         `}
       </style>
-      <section className="selection-screen">
+      <section className="selection-screen container">
         <form action="#" id="quiz-options-form">
           <label className="">
             Category:
