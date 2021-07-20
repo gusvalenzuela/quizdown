@@ -90,7 +90,7 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
         setGrade(null)
       } else {
         setAllAnswered(true)
-        setFinalScore((updatedTimerTime && updatedTimerTime >= 0) || 0)
+        setFinalScore(updatedTimerTime <= 0 ? 0 : updatedTimerTime)
       }
     }, 2000)
   }
@@ -104,22 +104,8 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
             text-align: center;
             padding: 1rem;
           }
-          header {
-            background-color: #0003;
-            color: var(--main-color, blue);
-            text-align: center;
-            margin: auto;
-            margin-bottom: 1rem;
-            width: 80%;
-            max-width: 576px;
-          }
 
           @media screen and (max-width: 576px) {
-            header > h1 {
-              font-size: 1.336rem;
-              margin-bottom: 0.5rem;
-            }
-
             .question-count,
             .countdown-timer {
               font-size: var(--heading-4);
@@ -189,7 +175,7 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
       </style>
       <header>
         <h1>{category || 'Category Name'}</h1>
-        <p className={`${difficulty}`}>{difficulty || 'Category Difficulty'}</p>
+        <p className={difficulty}>{difficulty || 'Category Difficulty'}</p>
       </header>
       <div className="timer-block">
         {/* quick patch for a working "countdown timer"
