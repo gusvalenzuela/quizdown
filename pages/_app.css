@@ -60,6 +60,11 @@ main {
   justify-content: flex-start;
   align-items: center;
 }
+
+main > div {
+  width: 100%;
+  margin: auto;
+}
 .easy {
   color: green;
 }
@@ -142,6 +147,26 @@ section .menu-btn {
   }
   button#close-menu {
     visibility: hidden;
+  }
+}
+
+header {
+  background-color: #0003;
+  color: var(--main-color, blue);
+  text-align: center;
+  margin: auto;
+  margin-bottom: 1rem;
+  width: 80%;
+  max-width: 576px;
+}
+
+@media screen and (max-width: 576px) {
+  header > h1 {
+    font-size: 1.336rem;
+  }
+  header > h1,
+  header p {
+    margin-bottom: 0.5rem;
   }
 }
 
