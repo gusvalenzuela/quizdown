@@ -8,7 +8,7 @@ import './_app.css'
 export default function MyApp({ Component, pageProps }) {
   // Start the pooled timer which runs every 60 seconds
   // (60000 milliseconds) by default.
-  Moment.startPooledTimer(1000)
+  Moment.startPooledTimer(100)
   return (
     <Layout>
       <Head>
