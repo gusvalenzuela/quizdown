@@ -1,13 +1,13 @@
-import useSWR from 'swr';
-import fetcher from './fetch';
+import useSWR from 'swr'
+import fetcher from './fetch'
 
 export function useCurrentUser() {
-  const { data, mutate } = useSWR('/api/user', fetcher);
-  const user = data?.user;
-  return [user, { mutate }];
+  const { data, mutate } = useSWR(() => '/api/user', fetcher)
+  const user = data ? data.user : null
+  return [user, { mutate }]
 }
 
 export function useUser(id) {
-  const { data } = useSWR(`/api/users/${id}`, fetcher, { revalidateOnFocus: false });
-  return data?.user;
+  const { data } = useSWR(`/api/users/${id}`, fetcher)
+  return data?.user
 }
