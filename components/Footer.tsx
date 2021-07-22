@@ -34,7 +34,7 @@ export default function Footer() {
             &copy; 2020-2021 \\{' '}
             <a href="https://www.gusvalenzuela.com">Gus Valenzuela</a>
             \\{' '}
-            <a href="https://github.com/gusvalenzuela/nxt-quiz-game">
+            <a href="https://github.com/gusvalenzuela/quizdown">
               <Icon name="github" />
             </a>
           </span>
