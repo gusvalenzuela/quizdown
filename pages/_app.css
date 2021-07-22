@@ -1,8 +1,8 @@
 :root {
-  --main-color: rgb(0, 112, 243);
-  --main-color-25: rgba(0, 112, 243, 0.25);
-  --main-color-50: rgba(0, 112, 243, 0.5);
-  --main-color-75: rgba(0, 112, 243, 0.75);
+  --main-color: #0070f3;
+  --main-color-25: #0070f340;
+  --main-color-50: #0070f380;
+  --main-color-75: #0070f3bf;
   /*font sizes*/
   --base-font-size: 1rem;
   --small-font-size: 0.8rem;
@@ -75,6 +75,7 @@ main > div {
   color: red;
 }
 .container {
+  position: relative;
   width: 100%;
   max-width: 800px;
   background-color: #eaeaea10;
@@ -120,7 +121,7 @@ code {
   padding: 0;
 }
 section#nav-section {
-  background: black;
+  background: var(--main-color, #006999);
   padding: 0.5rem;
 }
 section .menu-btn {
@@ -137,6 +138,7 @@ section .menu-btn {
     display: none;
   }
   nav#overlay {
+    background-color: var(--main-color, #006999);
     position: relative;
     display: block;
     width: 100vw;
@@ -152,7 +154,7 @@ section .menu-btn {
 
 header {
   background-color: #0003;
-  color: var(--main-color, blue);
+  color: var(--main-color, #006999);
   text-align: center;
   margin: auto;
   margin-bottom: 1rem;
@@ -173,7 +175,7 @@ header {
 nav {
   position: absolute;
   right: 0;
-  background: black;
+  background: var(--main-black, #000000);
   padding: 2em;
   width: calc(50% - 2px);
   height: 100vh;

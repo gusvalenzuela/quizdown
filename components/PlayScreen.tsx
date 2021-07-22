@@ -138,13 +138,15 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
           .card:active {
             color: #0070f3;
             border-color: #0070f3;
+            cursor: pointer;
           }
-
           .grade {
             font-weight: 700;
             font-size: var(--heading-3);
           }
           .timer-block {
+            position: absolute;
+            top: -2%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-evenly;
@@ -177,38 +179,38 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
         <h1>{category || 'Category Name'}</h1>
         <p className={difficulty}>{difficulty || 'Category Difficulty'}</p>
       </header>
-      <div className="timer-block">
-        {/* quick patch for a working "countdown timer"
-        uses moment (react-moment) */}
-        <Moment
-          element="span"
-          className="time"
-          style={{ display: 'none' }}
-          format="YYYY"
-          onChange={() => {
-            if (!timerOn) return
-            setTimerTime(timerTime <= 0 ? 0 : timerTime - 1)
-            if (timerTime <= 0) {
-              handleGrading('no')
-            }
-          }}
-        />
-        <span className="question-count">
-          Q: {questionCount} / {quiz.questions.length}
-        </span>
-        <span
-          style={{ color: `${timerTime <= 10 && 'red'}` }}
-          className="countdown-timer"
-        >
-          <Icon name="time" />
-          {timerTime}
-          <span id="grade-display" className="grade-display">
-            {grade > 0 ? `+${grade}` : grade}
-          </span>
-        </span>
-      </div>
 
       <div className="playScreen container">
+        <div className="timer-block">
+          {/* quick patch for a working "countdown timer"
+        uses moment (react-moment) */}
+          <Moment
+            element="span"
+            className="time"
+            style={{ display: 'none' }}
+            format="YYYY"
+            onChange={() => {
+              if (!timerOn) return
+              setTimerTime(timerTime <= 0 ? 0 : timerTime - 1)
+              if (timerTime <= 0) {
+                handleGrading('no')
+              }
+            }}
+          />
+          <span className="question-count">
+            Q: {questionCount} / {quiz.questions.length}
+          </span>
+          <span
+            style={{ color: `${timerTime <= 10 && 'red'}` }}
+            className="countdown-timer"
+          >
+            <Icon name="time" />
+            {timerTime}
+            <span id="grade-display" className="grade-display">
+              {grade > 0 ? `+${grade}` : grade}
+            </span>
+          </span>
+        </div>
         {activeQuestion && !allAnswered && (
           <section className="activeQuestion">
             <h2>{question}</h2>
