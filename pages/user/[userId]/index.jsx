@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import Img from 'next/image'
 import Error from 'next/error'
 import middleware from '../../../middlewares/middleware'
 import { useCurrentUser } from '../../../lib/hooks'
@@ -47,12 +48,12 @@ export default function UserPage({ user }) {
         <title>{name}</title>
       </Head>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <img src={profilePicture} width="256" height="256" alt={name} />
+        <Img src={profilePicture} width="256" height="256" alt={name} />
         <section>
           <div>
             <h2>{name}</h2>
             {isCurrentUser && (
-              <Link href="/settings">
+              <Link passHref href="/settings">
                 <button type="button">Edit</button>
               </Link>
             )}
