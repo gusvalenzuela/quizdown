@@ -26,7 +26,9 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
       (c) => c.innerText === correctAnswer
     )[0]
     // change background of correct answer to green
-    rightChoiceButton.style.backgroundColor = 'green'
+    if (rightChoiceButton !== undefined) {
+      rightChoiceButton.style.backgroundColor = 'green'
+    }
     clearTimeout(gradingTimeout)
     // freeze the timer
     setTimerOn(false)
@@ -67,7 +69,9 @@ function PlayScreen({ quiz, allAnswered, setAllAnswered, setFinalScore }) {
       if (selectedChoiceButton) {
         // only if a choice was actually selected
         // change background of incorrect answer to red
-        selectedChoiceButton.style.backgroundColor = 'red'
+        if (selectedChoiceButton !== undefined) {
+          selectedChoiceButton.style.backgroundColor = 'red'
+        }
       }
       // console.log('answered incorrectly')
       setGrade(penalty)
