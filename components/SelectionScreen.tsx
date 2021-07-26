@@ -30,7 +30,7 @@ function SelectionScreen({ categories, setQuiz }) {
     // category id chosen at random
     const randomID = Math.ceil(Math.random() * categories.length) + 8
     const data = await grabTriviaQsFromOpenTDB(randomID, mode)
-    if (data.response_code === 0) setQuiz(new Quiz(data.results))
+    if (data.response_code === 0) setQuiz(new Quiz(data.results, randomID))
   }
 
   async function handlePlayButton() {
@@ -40,7 +40,8 @@ function SelectionScreen({ categories, setQuiz }) {
       selectedDifficulty
     )
 
-    if (data.response_code === 0) setQuiz(new Quiz(data.results))
+    if (data.response_code === 0)
+      setQuiz(new Quiz(data.results, selectedCategory))
   }
 
   return (
