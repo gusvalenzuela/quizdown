@@ -39,7 +39,7 @@ export default function Layout({ children }) {
     return null
   }
   return (
-    <div id="myapp">
+    <div id="quizdownapp">
       <Head>
         <title>QuizDown⁉</title>
         <meta
