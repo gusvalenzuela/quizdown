@@ -32,7 +32,7 @@ const IndexPage = ({ categories }) => {
         <title>
           {quiz
             ? `${quiz.category || 'Unknown'} | ${
-                quiz?.difficulty || 'No difficulty found'
+                quiz.difficulty || 'No difficulty found'
               }`
             : 'Select your quiz!'}
         </title>
@@ -54,8 +54,11 @@ const IndexPage = ({ categories }) => {
           />
         ) : (
           <FinalScoreScreen
-            category={quiz.category}
-            difficulty={quiz.difficulty}
+            categoryDetails={{
+              name: quiz.category,
+              id: quiz.categoryId,
+              difficulty: quiz.difficulty,
+            }}
             score={finalScore}
           />
         )}
