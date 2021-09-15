@@ -3,19 +3,19 @@ import type { MouseEventHandler, MouseEvent } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Icon } from 'semantic-ui-react'
-import { useCurrentUser } from '../lib/hooks'
+// import { useCurrentUser } from '../lib/hooks'
 import LogoBtn from './LogoBtn'
 import Footer from './Footer'
 
 export default function Layout({ children }) {
-  const [user, { mutate }] = useCurrentUser()
+  // const [user, { mutate }] = useCurrentUser()
 
-  const handleLogout = async () => {
-    await fetch('/api/auth', {
-      method: 'DELETE',
-    })
-    mutate(null)
-  }
+  // const handleLogout = async () => {
+  //   await fetch('/api/auth', {
+  //     method: 'DELETE',
+  //   })
+  //   mutate(null)
+  // }
   function handleMenuButton(e: MouseEvent): MouseEventHandler {
     e.stopPropagation()
     const overlay = document.getElementById('overlay')
@@ -74,13 +74,13 @@ export default function Layout({ children }) {
       <nav id="overlay">
         <LogoBtn />
         <div style={{ float: 'right' }}>
-          {!user ? (
+          <Link href="/rankings" passHref>
+            <a style={{ color: '#fff' }}>RANKINGS</a>
+          </Link>
+          {/* {!user ? (
             <>
-              <Link href="/login" passHref>
-                <button type="button">Sign in</button>
-              </Link>
-              <Link href="/signup" passHref>
-                <button type="button">Sign up</button>
+              <Link href="/signin" passHref>
+                <button type="button">Sign In</button>
               </Link>
             </>
           ) : (
@@ -92,7 +92,7 @@ export default function Layout({ children }) {
                 Logout
               </button>
             </>
-          )}
+          )} */}
         </div>
         <button type="button" id="close-menu" className="close-btn">
           <Icon inverted name="close" />
