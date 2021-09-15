@@ -63,7 +63,7 @@ main {
 
 main > div {
   width: 100%;
-  margin: auto;
+  margin: 1rem auto;
 }
 .easy {
   color: green;
