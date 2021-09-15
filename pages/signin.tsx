@@ -7,12 +7,10 @@ import SignInForm from '../components/SignInForm'
 const SignInPage = () => {
   const router = useRouter()
   // const [user, { mutate }] = useCurrentUser()
-  // React.useEffect(() => {
-  //   // redirect to home if user is authenticated
-  //   if (user) router.push('/')
-  // }, [user, router])
-
-  router.push('/')
+  React.useEffect(() => {
+    // redirect to home if user is authenticated
+    router.push('/')
+  }, [router])
 
   return (
     <>
